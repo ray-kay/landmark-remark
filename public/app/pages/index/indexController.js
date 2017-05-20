@@ -25,6 +25,9 @@
         text: null
       };
       $scope.selectedMarker = {
+        id: null,
+        latitude: null,
+        longitude: null,
         text: null
       };
 
@@ -64,10 +67,10 @@
       // When we click on the marker show the showInfoWindow
       $scope.onClickCurrentMarker = function (event, marker) {
         var currentMarkerCoords = this.getPosition();
-        currentMarkerCoords.lat();
-        currentMarkerCoords.lng();
 
         $scope.selectedMarker = marker;
+        $scope.selectedMarker.latitude = currentMarkerCoords.lat();
+        $scope.selectedMarker.longitude = currentMarkerCoords.lng();
         if(!marker.text) {
           $scope.markerEditMode = true;
         }
@@ -75,8 +78,16 @@
       };
 
       $scope.saveLocationNote = function(marker){
-        console.log(marker);
-        $scope.markerEditMode = false;
+        console.log($scope.selectedMarker);
+
+        LocationService.saveLocation($scope.selectedMarker).then(function (res) {
+          console.log(res);
+          //toaster.pop('success', "Record successfully updated");
+          $scope.markerEditMode = false;
+        }, function (error) {
+          $scope.markerEditMode = false;
+          //toaster.pop('danger', error.data.message);
+        });
       }
 
     }
