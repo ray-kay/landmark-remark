@@ -1,0 +1,64 @@
+{
+  "name": "landmark-remark",
+  "version": "0.0.1",
+  "description": "Allows users to save location based notes on a map.",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "browser-sync": "^2.18.11",
+    "errorhandler": "^1.5.0",
+    "express": "^4.15.3",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^3.3.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-install": "^1.1.0",
+    "gulp-less": "^3.3.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^2.1.2",
+    "gulp-useref": "^3.1.2",
+    "gulp-watch": "^4.3.11",
+    "lazypipe": "^1.0.1",
+    "path": "^0.12.7",
+    "pug": "^2.0.0-rc.1",
+    "require-dir": "^0.3.1",
+    "run-sequence": "^1.2.2"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.18.11",
+    "gulp": "^3.9.1",
+    "gulp-angular-templatecache": "^2.0.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^3.3.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-if": "^2.0.2",
+    "gulp-install": "^1.1.0",
+    "gulp-less": "^3.3.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-replace": "^0.5.4",
+    "gulp-uglify": "^2.1.2",
+    "gulp-useref": "^3.1.2",
+    "gulp-watch": "^4.3.11",
+    "lazypipe": "^1.0.1",
+    "require-dir": "^0.3.1",
+    "run-sequence": "^1.2.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ray-kay/landmark-remark.git"
+  },
+  "author": "Ralf Hauptmann",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ray-kay/landmark-remark/issues"
+  },
+  "homepage": "https://github.com/ray-kay/landmark-remark#readme"
+}

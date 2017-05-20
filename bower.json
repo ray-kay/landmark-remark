@@ -1,0 +1,19 @@
+{
+  "name": "landmark-remark",
+  "description": "Allows users to save location based notes on a map.",
+  "main": "index.js",
+  "authors": [
+    "Ralf Hauptmann"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/ray-kay/landmark-remark",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
