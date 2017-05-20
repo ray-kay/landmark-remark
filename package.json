@@ -4,6 +4,7 @@
   "description": "Allows users to save location based notes on a map.",
   "main": "index.js",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "browser-sync": "^2.18.11",
     "errorhandler": "^1.5.0",
@@ -26,7 +27,8 @@
     "path": "^0.12.7",
     "pug": "^2.0.0-rc.1",
     "require-dir": "^0.3.1",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "sqlite": "^2.7.0"
   },
   "devDependencies": {
     "browser-sync": "^2.18.11",
