@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="landmarkRemarkApp">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+  <meta name="fragment" content="!">
   <title>Landmark Remark</title>
+
+  <!-- Base url for the app -->
+  <base href="/">
+
+  <!-- CSS -->
+  <!-- build:css app.min.css -->
+  <link href="compiled.min.css" rel="stylesheet">
+  <!-- endbuild -->
+
 </head>
 <body>
-  Hello World!
+
+  <!-- Content -->
+  <div ng-view autoscroll="true"></div>
+
+  <!-- Dependencies and plugins -->
+  <!-- build:js app.min.js -->
+  <script type="text/javascript" src='bower_components/angular/angular.js'></script>
+  <script type="text/javascript" src='bower_components/angular-route/angular-route.js'></script>
+
+  <!-- App scripts -->
+  <script type="text/javascript" src='app/app.js'></script>
+  <script type="text/javascript" src='app/app.routes.js'></script>
+  <script type="text/javascript" src='app/app.factory.js'></script>
+  <script type="text/javascript" src='app/app.run.js'></script>
+
+  <!-- Pages -->
+  <script type="text/javascript" src="app/pages/index/indexController.js"></script>
+
+  <!-- App Templates (Cached HTML) -->
+  <script type="text/javascript" src="templates.js"></script>
+  <!-- endbuild -->
 </body>
 </html>
