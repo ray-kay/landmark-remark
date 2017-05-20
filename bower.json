@@ -18,6 +18,9 @@
   ],
   "dependencies": {
     "angular": "~1.6.4",
-    "angular-route": "~1.6.4"
+    "angular-route": "~1.6.4",
+    "ngmap": "~1.18.4",
+    "angular-google-maps": "~2.4.1",
+    "lodash": "~4.17.4"
   }
 }

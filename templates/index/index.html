@@ -1,3 +1,30 @@
 <div id="page-index">
-  <h1>{{text}}</h1>
+  <div map-lazy-load="https://maps.google.com/maps/api/js">
+    <ng-map scrollwheel="{{::mapOptions.scrollwheel}}" draggable="{{::mapOptions.draggable}}" default-style="true"
+            zoom="12" street-view-control="false"
+            zoom-control-options="{position: 'TOP_RIGHT'}" zoom-to-include-markers="true"
+            styles="[ {featureType:'poi', stylers:[{visibility:'off'}]},{featureType:'transit', stylers:[{visibility:'off'}]} ]">
+      <marker id="marker-current" position="current" centered="true" on-click="onClickCurrentMarker(event, {id: 'marker-current'})"></marker>
+
+      <!--<custom-marker id="{{::marker.id}}" position="{{::marker.pos}}" ng-repeat="marker in ::mapMarkers"
+                     on-click="onClickMarker(event, marker)">
+        <div class="pickup-marker">
+          <span class="text-uppercase">{{::marker.label}}</span>
+          <img ng-src="{{::marker.icon}}" alt="{{::marker.label}}"/>
+        </div>
+      </custom-marker>-->
+
+      <info-window id="currentMarkerInfoWindow">
+        <div ng-non-bindable="">
+          <span ng-show="!markerEditMode && selectedMarker.text">{{ selectedMarker.text }}</span>
+          <a ng-show="!markerEditMode && selectedMarker.text" ng-click="markerEditMode = true" href="#">Edit note</a>
+          <form ng-show="markerEditMode" ng-submit="saveLocationNote(selectedMarker)">
+            <label for="markerText">Save a note on this location</label>
+            <textarea id="markerText" name="text" ng-model="selectedMarker.text"></textarea>
+            <button title="Save" type="submit">Save</button>
+          </form>
+        </div>
+      </info-window>
+    </ng-map>
+  </div>
 </div>

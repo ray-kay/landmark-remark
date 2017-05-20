@@ -4,6 +4,7 @@
   // Initialising the angular app
   var app = angular.module('landmarkRemarkApp', [
     'ngRoute',
-    'angular-templates'
+    'angular-templates',
+    'ngMap'
   ]);
 }());

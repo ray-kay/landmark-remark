@@ -3,6 +3,10 @@
   'use strict';
   // Initialise any application level factory/services
   angular.module('landmarkRemarkApp')
+    // A helper library with many built in js utilities
+    .factory('_', ['$window', function ($window) {
+      return $window._;
+    }])
     // Service to broadcast events around in the app
     .factory('broadcastService', ['$rootScope', function ($rootScope) {
       return {
