@@ -35,7 +35,7 @@
         LocationService.getCurrentLocation()
           .then(function (coords) {
             console.log(coords);
-            initMapLoad(coords.latitude, coords.longitude, $scope.map.minZoomOnLoad);
+            initMapLoad(coords.latitude, coords.longitude, $scope.mapOptions.minZoomOnLoad);
           }, function (error) {
             console.log(res);/*
             var alert = {
@@ -46,7 +46,7 @@
             broadcastService.send('showAppAlert', alert);*/
           });
       };
-      //getCurrentLocation();
+      getCurrentLocation();
 
       var initMapLoad = function(latitude, longitude, zoom) {
         NgMap.getMap().then(function (map) {
@@ -60,24 +60,36 @@
           google.maps.event.clearListeners(map, 'dragend');
 
           vm.map = map;
+
+          if($localStorage.sessionKey){
+            loadLocationList();
+          }
+        }, function(error){
+
         });
       };
       initMapLoad(0,0,$scope.mapOptions.minZoomOnLoad);
 
       // When we click on the marker show the showInfoWindow
       $scope.onClickCurrentMarker = function (event, marker) {
-        var currentMarkerCoords = this.getPosition();
+        if(vm.map) {
+          var currentMarkerCoords = this.getPosition();
 
-        $scope.selectedMarker = marker;
-        $scope.selectedMarker.latitude = currentMarkerCoords.lat();
-        $scope.selectedMarker.longitude = currentMarkerCoords.lng();
-        if(!marker.text) {
-          $scope.markerEditMode = true;
+          $scope.selectedMarker = marker;
+          $scope.selectedMarker.latitude = currentMarkerCoords.lat();
+          $scope.selectedMarker.longitude = currentMarkerCoords.lng();
+          if (!marker.text) {
+            $scope.markerEditMode = true;
+          }
+          vm.map.showInfoWindow('currentMarkerInfoWindow', marker.id);
         }
-        vm.map.showInfoWindow('currentMarkerInfoWindow', marker.id);
       };
 
       $scope.saveLocationNote = function(marker){
+
+        if(!$localStorage.sessionKey){
+          UserService.showSignUpDialog()
+        }
         console.log($scope.selectedMarker);
 
         LocationService.saveLocation($scope.selectedMarker).then(function (res) {
@@ -93,6 +105,14 @@
       //check if user is authenticated, if not show dialog
       if(!$localStorage.sessionKey){
         UserService.showSignUpDialog()
+      }
+
+      var loadLocationList = function(){
+        LocationService.getList().then(function (res) {
+          console.log(res);
+        }, function (error) {
+          console.log('error', error);
+        });
       }
     }
   ]);

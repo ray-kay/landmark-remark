@@ -26,7 +26,7 @@ module.exports = {
           4: currentTimeStamp
         })
         .then(function (result) {
-          return response.json({
+          return response.status(201).json({
             success: true,
             data: {
               session_key: sessionKey

@@ -4,7 +4,7 @@
   var app = angular.module('landmarkRemarkApp');
 
   app.factory('LocationService',
-    function ($q, $rootScope, $window, $http) {
+    function ($q, $rootScope, $window, $http, $localStorage) {
 
       // Will request the user to allow access to browser's navigator
       // If user allows access, it will return the coordinates
@@ -124,7 +124,7 @@
 
       var saveLocation = function (location) {
         var deferred = $q.defer();
-        var requestURL = '/api/location';
+        var requestURL = '/api/location?sessionKey=' + $localStorage.sessionKey;
 
         $http.post(requestURL, {
           location: location
@@ -141,9 +141,27 @@
         return deferred.promise;
       };
 
+      var getList = function (location) {
+        var deferred = $q.defer();
+        var requestURL = '/api/location?sessionKey=' + $localStorage.sessionKey;
+
+        $http.get(requestURL).then(function (res) {
+          if (res.data.success) {
+            deferred.resolve(res);
+          } else {
+            deferred.reject(res);
+          }
+        }, function (error) {
+          deferred.reject(error);
+        });
+
+        return deferred.promise;
+      };
+
       return {
         getCurrentLocation: getCurrentLocation,
-        saveLocation: saveLocation
+        saveLocation: saveLocation,
+        getList: getList
       };
     }
   );
