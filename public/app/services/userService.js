@@ -4,7 +4,7 @@
   var app = angular.module('landmarkRemarkApp');
 
   app.factory('UserService',
-    function ($q, $http, $mdDialog, $localStorage) {
+    function ($q, $http, $mdDialog, $localStorage, broadcastService) {
 
       var saveUser = function (userName) {
         var deferred = $q.defer();
@@ -42,6 +42,8 @@
             saveUser(userName).then(function (res) {
               if (res.data.success) {
                 $localStorage.sessionKey = res.data.data.session_key;
+                $localStorage.userName = userName;
+                broadcastService.send('userSignUp');
               }
             }, function (error) {
             });

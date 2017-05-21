@@ -5,17 +5,13 @@
 
   app.controller('IndexController',
     function ($scope, $timeout, $mdSidenav, $localStorage, UserService, LocationService) {
+      $scope.mapMarkers = [];
       $scope.searchText = '';
 
       $scope.searchFilter = function(item) {
-        if (!$scope.searchText || (item.text.toLowerCase().indexOf($scope.searchText) != -1) ||
-          (item.userName.toLowerCase().indexOf($scope.searchText.toLowerCase()) != -1) ){
-          return true;
-        }
-        return false;
+        return (!$scope.searchText || (item.text.toLowerCase().indexOf($scope.searchText) != -1) ||
+          (item.userName.toLowerCase().indexOf($scope.searchText.toLowerCase()) != -1) );
       };
-
-      $scope.mapMarkers = [];
 
       $scope.toggleSidebar = buildDelayedToggler('left');
 
@@ -25,14 +21,10 @@
           .then(function () {});
       };
 
-      //check if user is authenticated, if not show dialog
-      if(!$localStorage.sessionKey){
-        UserService.showSignUpDialog()
-      }
-      else{
+      function loadLocations() {
         LocationService.getList().then(function (res) {
           if(res.data.success) {
-
+            //add location markers
             res.data.data.forEach(function (location,index) {
               $scope.mapMarkers.push({
                 id: 'location-' + (index + 1),
@@ -48,6 +40,19 @@
           console.log('error', error);
         });
       }
+
+      //check if user is authenticated, if not show dialog
+      if(!$localStorage.sessionKey){
+        UserService.showSignUpDialog();
+      }
+      else{
+        loadLocations();
+      }
+
+      // Listen to the broadcast message 'userSignUp' to
+      $scope.$on('userSignUp', function (context) {
+        loadLocations();
+      });
 
       /**
        * Supplies a function that will continue to operate until the

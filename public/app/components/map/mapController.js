@@ -56,6 +56,7 @@
         NgMap.getMap().then(function (map) {
           $scope.mapOptions.loaded = true;
 
+          map.setCenter({lat: latitude, lng: longitude});
           google.maps.event.clearListeners(map, 'zoom_changed');
           google.maps.event.clearListeners(map, 'dragend');
 
@@ -67,11 +68,10 @@
 
       // When we click on the marker show the showInfoWindow
       $scope.onClickMarker = function (event, marker) {
+        $scope.markerEditMode = false;
         if(vm.map) {
-          //var currentMarkerCoords = this.getPosition();
 
           $scope.selectedMarker = marker;
-          console.log(marker);
           if(marker.isCurrentUser){
             if (!marker.text) {
               $scope.markerEditMode = true;

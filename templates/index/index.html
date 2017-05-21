@@ -1,6 +1,6 @@
-<div id="page-index" layout="column" style="height:100vh" ng-cloak>
+<div id="page-index" layout="column" ng-cloak>
   <section layout="row" flex>
-    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"
+    <md-sidenav class="md-sidenav-left sidebar-landmark" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"
                 md-whiteframe="4">
       <md-toolbar class="md-theme-indigo">
         <h1 class="md-toolbar-tools">Landmark Remark</h1>
@@ -16,7 +16,7 @@
           <md-list-item class="md-2-line" ng-repeat="marker in mapMarkers | filter: searchFilter">
             <div class="md-list-item-text">
               <h3>{{ marker.text }}</h3>
-              <p>by: {{marker.userName}}</p>
+              <p class="userName">{{marker.userName}}</p>
             </div>
           </md-list-item>
         </md-list>
@@ -26,7 +26,7 @@
       </md-content>
     </md-sidenav>
 
-    <md-content landmark-map flex layout-padding map-lazy-load="https://maps.google.com/maps/api/js">
+    <md-content landmark-map flex map-lazy-load="https://maps.google.com/maps/api/js">
       <div flex></div>
     </md-content>
   </section>
