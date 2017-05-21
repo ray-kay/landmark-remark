@@ -3,117 +3,82 @@
   'use strict';
   var app = angular.module('landmarkRemarkApp');
 
-  app.controller('IndexController', ['$scope', 'NgMap', 'LocationService', 'UserService', '$localStorage',
-    function ($scope, NgMap, LocationService, UserService, $localStorage) {
+  app.controller('IndexController',
+    function ($scope, $timeout, $mdSidenav, $localStorage, UserService, LocationService) {
+      $scope.searchText = '';
 
-      var vm = this;
-
-      //init map variable
-      $scope.mapOptions = {
-        loaded: false,
-        scrollwheel: false,
-        draggable: true,
-        minZoomOnLoad: 12
+      $scope.searchFilter = function(item) {
+        if (!$scope.searchText || (item.text.toLowerCase().indexOf($scope.searchText) != -1) ||
+          (item.userName.toLowerCase().indexOf($scope.searchText.toLowerCase()) != -1) ){
+          return true;
+        }
+        return false;
       };
 
       $scope.mapMarkers = [];
-      $scope.markerEditMode = false;
-      $scope.currentMarker = {
-        id: 'marker-current',
-        latitude: null,
-        longitude: null,
-        text: null
-      };
-      $scope.selectedMarker = {
-        id: null,
-        latitude: null,
-        longitude: null,
-        text: null
-      };
 
-      var getCurrentLocation = function () {
-        LocationService.getCurrentLocation()
-          .then(function (coords) {
-            console.log(coords);
-            initMapLoad(coords.latitude, coords.longitude, $scope.mapOptions.minZoomOnLoad);
-          }, function (error) {
-            console.log(res);/*
-            var alert = {
-              type: 'danger',
-              title: 'Failure',
-              description: 'Unable to estimate your current location'
-            };
-            broadcastService.send('showAppAlert', alert);*/
-          });
-      };
-      getCurrentLocation();
+      $scope.toggleSidebar = buildDelayedToggler('left');
 
-      var initMapLoad = function(latitude, longitude, zoom) {
-        NgMap.getMap().then(function (map) {
-          $scope.mapOptions.loaded = true;
-
-          map.setZoom(zoom);
-          //console.log(map.markers[0].getPosition());
-          //map.setCenter(latitude, longitude);
-
-          google.maps.event.clearListeners(map, 'zoom_changed');
-          google.maps.event.clearListeners(map, 'dragend');
-
-          vm.map = map;
-
-          if($localStorage.sessionKey){
-            loadLocationList();
-          }
-        }, function(error){
-
-        });
-      };
-      initMapLoad(0,0,$scope.mapOptions.minZoomOnLoad);
-
-      // When we click on the marker show the showInfoWindow
-      $scope.onClickCurrentMarker = function (event, marker) {
-        if(vm.map) {
-          var currentMarkerCoords = this.getPosition();
-
-          $scope.selectedMarker = marker;
-          $scope.selectedMarker.latitude = currentMarkerCoords.lat();
-          $scope.selectedMarker.longitude = currentMarkerCoords.lng();
-          if (!marker.text) {
-            $scope.markerEditMode = true;
-          }
-          vm.map.showInfoWindow('currentMarkerInfoWindow', marker.id);
-        }
-      };
-
-      $scope.saveLocationNote = function(marker){
-
-        if(!$localStorage.sessionKey){
-          UserService.showSignUpDialog()
-        }
-        console.log($scope.selectedMarker);
-
-        LocationService.saveLocation($scope.selectedMarker).then(function (res) {
-          console.log(res);
-          //toaster.pop('success', "Record successfully updated");
-          $scope.markerEditMode = false;
-        }, function (error) {
-          $scope.markerEditMode = false;
-          //toaster.pop('danger', error.data.message);
-        });
+      $scope.closeSidebar = function () {
+        // Component lookup should always be available since we are not using `ng-if`
+        $mdSidenav('left').close()
+          .then(function () {});
       };
 
       //check if user is authenticated, if not show dialog
       if(!$localStorage.sessionKey){
         UserService.showSignUpDialog()
       }
-
-      var loadLocationList = function(){
+      else{
         LocationService.getList().then(function (res) {
-          console.log(res);
+          if(res.data.success) {
+
+            res.data.data.forEach(function (location,index) {
+              $scope.mapMarkers.push({
+                id: 'location-' + (index + 1),
+                isCurrentUser: location.isCurrentUser,
+                text: location.text,
+                userName: location.userName,
+                latitude: location.latitude,
+                longitude: location.longitude
+              });
+            });
+          }
         }, function (error) {
           console.log('error', error);
         });
       }
+
+      /**
+       * Supplies a function that will continue to operate until the
+       * time is up.
+       */
+      function debounce(func, wait, context) {
+        var timer;
+
+        return function debounced() {
+          var context = $scope,
+            args = Array.prototype.slice.call(arguments);
+          $timeout.cancel(timer);
+          timer = $timeout(function() {
+            timer = undefined;
+            func.apply(context, args);
+          }, wait || 10);
+        };
+      }
+
+      /**
+       * Build handler to open/close a SideNav; when animation finishes
+       * report completion in console
+       */
+      function buildDelayedToggler(navID) {
+        return debounce(function() {
+          // Component lookup should always be available since we are not using `ng-if`
+          $mdSidenav(navID)
+            .toggle()
+            .then(function () {});
+        }, 200);
+      }
     }
-  ]);
+  )
 }());

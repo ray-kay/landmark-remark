@@ -3,8 +3,8 @@ var db = require('sqlite');
 
 module.exports = {
   getAllLocation: function(request, response, next) {
-    var query = 'SELECT l.latitude, l.longitude, l.text, l.updatedAt, u.user_name, ' +
-      '(CASE WHEN u.id = ? THEN 1 ELSE 0 END) AS `currentUser` ' +
+    var query = 'SELECT l.id, l.latitude, l.longitude, l.text, l.updatedAt, u.user_name as userName, ' +
+      '(CASE WHEN u.id = ? THEN 1 ELSE 0 END) AS `isCurrentUser` ' +
       'FROM `location` l ' +
       'INNER JOIN `user` u ON (u.id = l.userId)';
     db.all(query,request.currentUserId).then(function(result){

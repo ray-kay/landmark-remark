@@ -1,0 +1,38 @@
+<ng-map layout="column" layout-align="top center"
+        scrollwheel="{{::mapOptions.scrollwheel}}" draggable="{{::mapOptions.draggable}}" default-style="true"
+        zoom="12" street-view-control="false"
+        zoom-control-options="{position: 'TOP_RIGHT'}" zoom-to-include-markers="true">
+
+  <marker ng-if="newMarker" id="{{newMarker.id}}" position="[{{newMarker.latitude}},{{newMarker.longitude}}]"
+          on-click="onClickMarker(event, newMarker)" title="{{newMarker.userName}}" icon="{{newMarker.icon}}">
+  </marker>
+
+  <marker id="{{marker.id}}" ng-repeat="marker in mapMarkers | filter: searchFilter"
+          position="[{{marker.latitude}},{{marker.longitude}}]"
+          on-click="onClickMarker(event, marker)" title="{{marker.userName}}" icon="{{marker.icon}}">
+  </marker>
+
+  <info-window id="markerInfoWindow">
+    <div ng-non-bindable="">
+      <span>{{ selectedMarker.text }}</span><br>
+      from: {{ selectedMarker.userName }}
+    </div>
+  </info-window>
+
+  <info-window id="editableMarkerInfoWindow">
+    <div ng-non-bindable="">
+      <div ng-show="!markerEditMode && selectedMarker.text">{{ selectedMarker.text }}</div>
+      <md-button ng-show="!markerEditMode && selectedMarker.text" ng-click="markerEditMode = true" title="Edit">Edit
+      </md-button>
+
+      <form ng-show="markerEditMode" ng-submit="saveNote()">
+        <md-input-container class="md-block" flex-gt-sm>
+          <label>Your note</label>
+          <textarea ng-model="selectedMarker.text"></textarea>
+        </md-input-container>
+
+        <md-button md-no-ink class="md-primary" title="Save" type="submit">Save</md-button>
+      </form>
+    </div>
+  </info-window>
+</ng-map>

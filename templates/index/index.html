@@ -1,30 +1,33 @@
-<div id="page-index">
-  <div map-lazy-load="https://maps.google.com/maps/api/js">
-    <ng-map scrollwheel="{{::mapOptions.scrollwheel}}" draggable="{{::mapOptions.draggable}}" default-style="true"
-            zoom="12" street-view-control="false"
-            zoom-control-options="{position: 'TOP_RIGHT'}" zoom-to-include-markers="true"
-            styles="[ {featureType:'poi', stylers:[{visibility:'off'}]},{featureType:'transit', stylers:[{visibility:'off'}]} ]">
-      <marker id="marker-current" position="current" centered="true" on-click="onClickCurrentMarker(event, {id: 'marker-current'})"></marker>
+<div id="page-index" layout="column" style="height:100vh" ng-cloak>
+  <section layout="row" flex>
+    <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"
+                md-whiteframe="4">
+      <md-toolbar class="md-theme-indigo">
+        <h1 class="md-toolbar-tools">Landmark Remark</h1>
+      </md-toolbar>
+      <md-content layout-padding>
+        <form>
+          <md-input-container>
+            <label for="testInput">Search notes & users</label>
+            <input type="text" id="testInput" ng-model="searchText" md-autofocus>
+          </md-input-container>
+        </form>
+        <md-list flex>
+          <md-list-item class="md-2-line" ng-repeat="marker in mapMarkers | filter: searchFilter">
+            <div class="md-list-item-text">
+              <h3>{{ marker.text }}</h3>
+              <p>by: {{marker.userName}}</p>
+            </div>
+          </md-list-item>
+        </md-list>
+        <md-button ng-click="closeSidebar()" class="md-primary" hide-gt-sm>
+          Close
+        </md-button>
+      </md-content>
+    </md-sidenav>
 
-      <!--<custom-marker id="{{::marker.id}}" position="{{::marker.pos}}" ng-repeat="marker in ::mapMarkers"
-                     on-click="onClickMarker(event, marker)">
-        <div class="pickup-marker">
-          <span class="text-uppercase">{{::marker.label}}</span>
-          <img ng-src="{{::marker.icon}}" alt="{{::marker.label}}"/>
-        </div>
-      </custom-marker>-->
-
-      <info-window id="currentMarkerInfoWindow">
-        <div ng-non-bindable="">
-          <span ng-show="!markerEditMode && selectedMarker.text">{{ selectedMarker.text }}</span>
-          <a ng-show="!markerEditMode && selectedMarker.text" ng-click="markerEditMode = true" href="#">Edit note</a>
-          <form ng-show="markerEditMode" ng-submit="saveLocationNote(selectedMarker)">
-            <label for="markerText">Save a note on this location</label>
-            <textarea id="markerText" name="text" ng-model="selectedMarker.text"></textarea>
-            <button title="Save" type="submit">Save</button>
-          </form>
-        </div>
-      </info-window>
-    </ng-map>
-  </div>
+    <md-content landmark-map flex layout-padding map-lazy-load="https://maps.google.com/maps/api/js">
+      <div flex></div>
+    </md-content>
+  </section>
 </div>
