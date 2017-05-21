@@ -4,7 +4,7 @@ var bs = require('browser-sync').create();
 var runSequence = require('run-sequence');
 var clean = require('gulp-clean');
 
-var port = 3000;
+var port = 4000;
 
 /**
  * Watches the angular app files

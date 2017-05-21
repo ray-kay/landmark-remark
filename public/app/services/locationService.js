@@ -3,7 +3,7 @@
   'use strict';
   var app = angular.module('landmarkRemarkApp');
 
-  app.factory('LocationService', ['$q', '$rootScope', '$window', '$http',
+  app.factory('LocationService',
     function ($q, $rootScope, $window, $http) {
 
       // Will request the user to allow access to browser's navigator
@@ -146,5 +146,5 @@
         saveLocation: saveLocation
       };
     }
-  ]);
+  );
 }());

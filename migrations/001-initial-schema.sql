@@ -1,9 +1,23 @@
 -- Up
-CREATE TABLE User (id INTEGER PRIMARY KEY, user_name VARCHAR(255));
-CREATE TABLE Location (id INTEGER PRIMARY KEY, userId INTEGER, latitude FLOAT, longitude FLOAT, `text` TEXT,
-  CONSTRAINT Location_fk_userId FOREIGN KEY (userId)
-    REFERENCES User (id) ON UPDATE CASCADE ON DELETE CASCADE);
+CREATE TABLE `user` (
+  `id` INTEGER PRIMARY KEY,
+  `user_name` VARCHAR(255) NOT NULL UNIQUE,
+  `sessionKey` VARCHAR(255) NOT NULL UNIQUE,
+  `createdAt` INTEGER,
+  `updatedAt` INTEGER
+);
+CREATE TABLE `location` (
+  `id` INTEGER PRIMARY KEY,
+  `userId` INTEGER NOT NULL,
+  `latitude` FLOAT NOT NULL,
+  `longitude` FLOAT NOT NULL,
+  `text` TEXT,
+  `createdAt` INTEGER,
+  `updatedAt` INTEGER,
+  CONSTRAINT `location_fk_userId` FOREIGN KEY (`userId`)
+    REFERENCES `user` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+);
 
 -- Down
-DROP TABLE User;
-DROP TABLE Location;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `location`;

@@ -5,6 +5,8 @@
   var app = angular.module('landmarkRemarkApp', [
     'ngRoute',
     'angular-templates',
-    'ngMap'
+    'ngMap',
+    'ngMaterial',
+    'ngStorage'
   ]);
 }());

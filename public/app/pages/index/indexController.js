@@ -3,8 +3,8 @@
   'use strict';
   var app = angular.module('landmarkRemarkApp');
 
-  app.controller('IndexController', ['$scope', 'NgMap', 'LocationService',
-    function ($scope, NgMap, LocationService) {
+  app.controller('IndexController', ['$scope', 'NgMap', 'LocationService', 'UserService', '$localStorage',
+    function ($scope, NgMap, LocationService, UserService, $localStorage) {
 
       var vm = this;
 
@@ -88,8 +88,12 @@
           $scope.markerEditMode = false;
           //toaster.pop('danger', error.data.message);
         });
-      }
+      };
 
+      //check if user is authenticated, if not show dialog
+      if(!$localStorage.sessionKey){
+        UserService.showSignUpDialog()
+      }
     }
   ]);
 }());

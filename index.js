@@ -9,7 +9,7 @@ var db = require('sqlite');
 var routes = require('./routes/index.js');
 var apiRoutes = require('./routes/api.js');
 
-var router = express.Router();
+var port = 4000;
 
 //Set up express statics
 app.use(express.static(path.join(__dirname, 'public')));
@@ -38,8 +38,8 @@ Promise.resolve()
   .then(() => db.migrate({ force: false })) //change to 'last' for clean db
   .catch(err => console.error(err.stack))
   // Finally, launch Node.js app
-  .finally(() => app.listen(3000, function () {
-      console.log("The app is running on 3000!");
+  .finally(() => app.listen(port, function () {
+      console.log("The app is running on port " + port);
     })
   );
 /*
