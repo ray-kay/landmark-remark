@@ -101,6 +101,10 @@
         });
       };
 
+      $scope.$on('userSignUp', function (context) {
+        $scope.onClickMarker(null,$scope.newMarker);
+      });
+
     }
   );
 }());
