@@ -71,6 +71,10 @@
         $scope.markerEditMode = false;
         if(vm.map) {
 
+          //make sure to close current info window
+          vm.map.hideInfoWindow('editableMarkerInfoWindow');
+          vm.map.hideInfoWindow('markerInfoWindow');
+
           $scope.selectedMarker = marker;
           if(marker.isCurrentUser){
             if (!marker.text) {

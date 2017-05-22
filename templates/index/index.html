@@ -1,5 +1,6 @@
 <div id="page-index" layout="column" ng-cloak>
   <section layout="row" flex>
+
     <md-sidenav class="md-sidenav-left sidebar-landmark" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')"
                 md-whiteframe="4">
       <md-toolbar class="md-theme-indigo">
@@ -26,8 +27,14 @@
       </md-content>
     </md-sidenav>
 
-    <md-content landmark-map flex map-lazy-load="https://maps.google.com/maps/api/js">
+    <md-content  flex map-lazy-load="https://maps.google.com/maps/api/js">
+      <landmark-map></landmark-map>
+
+      <md-button id="mobile-toggle-sidebar" class="md-fab md-primary" aria-label="Show list" ng-click="toggleSidebar()" hide-gt-sm>
+        <md-icon md-svg-src="images/menu.svg"></md-icon>
+      </md-button>
       <div flex></div>
     </md-content>
+
   </section>
 </div>

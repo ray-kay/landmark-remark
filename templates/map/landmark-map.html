@@ -14,14 +14,17 @@
 
   <info-window id="markerInfoWindow">
     <div ng-non-bindable="">
-      <div>{{ selectedMarker.text }}</div>
+      <p>{{ selectedMarker.text }}</p>
       <p class="userName">{{ selectedMarker.userName }}</p>
     </div>
   </info-window>
 
   <info-window id="editableMarkerInfoWindow">
     <div ng-non-bindable="">
-      <div ng-show="!markerEditMode && selectedMarker.text" ng-click="markerEditMode = true">{{ selectedMarker.text }}</div>
+      <div ng-show="!markerEditMode && selectedMarker.text" ng-click="markerEditMode = true" title="Click to edit">
+        <p>{{ selectedMarker.text }}</p>
+        <p class="userName">You</p>
+      </div>
 
       <form ng-show="markerEditMode" ng-submit="saveNote()">
         <md-input-container class="md-block" flex-gt-sm>
